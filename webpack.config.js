@@ -2,12 +2,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     entry: './src/index.js',
     mode: "development",
     output: {
-        filename: 'main.js'
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/dist/'
     },
     plugins: [
         new MiniCssExtractPlugin(),
@@ -20,8 +23,11 @@ module.exports = {
         new OptimizeCssAssetsWebpackPlugin(),
     ],
     devServer: {
-        static: './dist',
+        static: {
+            directory: path.resolve(__dirname, 'dist'),
+        },
         port: 3001,
+        hot: true
     },
     stats: {
             children: false
@@ -37,9 +43,6 @@ module.exports = {
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            esModule: true,
-                        },
                     },
                     'css-loader',
                 ],
