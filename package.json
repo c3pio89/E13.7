@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack serve"
+    "start": "webpack serve --port 3001",
+    "json-server": "json-server --watch db.json --port 3002",
+    "dev": "webpack-dev-server"
   },
   "author": "Taras",
   "license": "ISC",
@@ -22,9 +24,12 @@
     "terser-webpack-plugin": "^5.3.9",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.9.0"
   },
   "dependencies": {
-    "autoprefixer": "10.4.5"
+    "autoprefixer": "10.4.5",
+    "axios": "^1.4.0",
+    "cors": "^2.8.5"
   }
 }
