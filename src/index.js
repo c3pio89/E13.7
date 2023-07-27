@@ -1,8 +1,6 @@
 import './style.css';
-import * as math from './math';
+import { sum, multiply } from './math';
 import axios from 'axios';
-
-const multiply = (a) => a * 8;
 
 function updateContent(data) {
   const outputElement = document.querySelector('#output');
@@ -13,19 +11,26 @@ function updateContent(data) {
   const userDataElement2 = document.querySelector('#userData2');
 
   outputElement.textContent = 'ES6 modules!';
-  sumResultElement.textContent = 'sum = ' + math.sum(2, 3);
+  sumResultElement.textContent = 'sum = ' + sum(2, 3);
   multiplyFromIndexElement.textContent = 'multiply from index.js = ' + multiply(5);
-  multiplyFromMathElement.textContent = 'multiply from math = ' + math.multiply(5);
+  multiplyFromMathElement.textContent = 'multiply from math = ' + multiply(5);
 
-  if (data && data.users && Array.isArray(data.users) && data.users.length > 0) {
-    const user1 = data.users[0];
+  if (data && Array.isArray(data) && data.length > 0) {
+    const user1 = data[0];
     userDataElement1.textContent = `Name: ${user1.name}, Age: ${user1.age}, City: ${user1.city}`;
 
-    const user2 = data.users[1];
+    const user2 = data[1];
     userDataElement2.textContent = `Name: ${user2.name}, Age: ${user2.age}, City: ${user2.city}`;
   } else {
-    userDataElement1.textContent = 'Data not available.';
-    userDataElement2.textContent = 'Data not available.';
+    userDataElement1.textContent = 'Loading...'; // Загрузка данных...
+    userDataElement2.textContent = 'Loading...';
+  }
+
+  if (!window.navigator.userAgentData) {
+    const userDataElements = document.querySelectorAll('[id^="userData"]');
+    userDataElements.forEach((el) => {
+      el.textContent = 'Your browser does not support navigator.userAgentData API.';
+    });
   }
 }
 
@@ -64,7 +69,7 @@ function render() {
 
 render();
 
-if (module.hot) {
+if (typeof module !== 'undefined' && module.hot) {
   module.hot.accept('./style.css', () => {
     console.log('Стили обновлены!');
   });
